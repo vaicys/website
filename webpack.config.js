@@ -1,9 +1,12 @@
 const path = require('path');
+const glob = require('glob-all');
+
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const PurifyCSSPlugin = require('purifycss-webpack');
 
 module.exports = {
     mode: 'production',
@@ -36,6 +39,15 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'styles.[hash].css'
+        }),
+        new PurifyCSSPlugin({
+            paths: glob.sync([
+                path.join(__dirname, 'src/*.html')
+            ]),
+            minimize: true,
+            purifyOptions: {
+                whitelist: []
+            }
         })
     ],
     optimization: {
