@@ -6,7 +6,7 @@ script: npm run build
 
 deploy:
   provider: pages
-  repo: vaicys.github.io
+  project-name: vaicys.github.io
   target-branch: master
   local-dir: dist
   skip-cleanup: true
