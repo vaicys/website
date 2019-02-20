@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const PurifyCSSPlugin = require('purifycss-webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -48,7 +49,10 @@ module.exports = {
             purifyOptions: {
                 whitelist: []
             }
-        })
+        }),
+        new CopyPlugin([
+            'CNAME'
+        ])
     ],
     optimization: {
         minimizer: [
