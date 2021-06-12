@@ -35,5 +35,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "noreply@github.com"
           git add --all
-          git commit -m "Deploying build ${GITHUB_SHA::8}"
+          git commit -m "Deploying build ${GITHUB_SHA::8}" || true
           git push
