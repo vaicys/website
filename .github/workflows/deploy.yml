@@ -7,6 +7,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout deploy drop
+        uses: actions/checkout@v2
+        with:
+          repository: 'vaicys/vaicys.github.io'
+          path: 'dist'
+
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run build
+
+      - name: Deploy current build
+        shell: bash
+        working-directory: dist
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "noreply@github.com"
+          git commit -am "Deploying build ${GITHUB_SHA::8}"
+          git push
