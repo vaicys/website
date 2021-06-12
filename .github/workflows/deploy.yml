@@ -2,24 +2,32 @@ name: Deploy
 on: push
 
 jobs:
-  deploy:
-    name: Build and deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout deploy drop
-        uses: actions/checkout@v2
-        with:
-          repository: 'vaicys/vaicys.github.io'
-          path: 'dist'
-
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
 
-      - name: Deploy current build
-        shell: bash
-        working-directory: dist
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'vaicys/vaicys.github.io'
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - shell: bash
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "noreply@github.com"
