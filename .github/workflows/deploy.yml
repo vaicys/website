@@ -25,6 +25,8 @@ jobs:
         with:
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
           repository: 'vaicys/vaicys.github.io'
+      - shell: bash
+        run: rm -f *
       - uses: actions/download-artifact@v2
         with:
           name: dist
